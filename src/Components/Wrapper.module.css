@@ -1,0 +1,7 @@
+.wrapper {
+  flex-direction: column;
+  display: flex;
+  width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}

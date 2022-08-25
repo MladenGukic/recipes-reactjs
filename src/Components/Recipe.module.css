@@ -1,0 +1,11 @@
+.recipe {
+  padding: 5px;
+  border-bottom: 3px solid rgb(92, 87, 87);
+}
+p {
+  width: 500px;
+  display: inline-block;
+  white-space: nowrap;
+  overflow: hidden !important;
+  text-overflow: ellipsis;
+}
