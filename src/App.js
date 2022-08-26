@@ -111,12 +111,18 @@ function App() {
       })
     );
   };
+  const removeElement = (id) => {
+    console.log(id);
+    let indexCake = RECIPES.findIndex((element) => element.id === id);
+    RECIPES.splice(indexCake, 1);
+    filterRecipes("");
+  };
 
   return (
     <Wrapper>
       <h2>Recipes Owerview</h2>
       <RecipesFilter onChange={filterRecipes} />
-      <RecipesList recipes={filteredRecipes} />
+      <RecipesList deleteRecipe={removeElement} recipes={filteredRecipes} />
     </Wrapper>
   );
 }

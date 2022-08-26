@@ -11,6 +11,8 @@ const RecipesList = (props) => {
           key={recipe.id}
           title={recipe.title}
           description={recipe.description}
+          deleteRecipe={props.deleteRecipe}
+          id={recipe.id}
         />
       ))}
     </ul>
