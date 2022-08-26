@@ -4,6 +4,7 @@ import "./App.css";
 import RecipesList from "./Components/RecipesList";
 import Wrapper from "./Components/Wrapper";
 import RecipesFilter from "./Components/RecipesFilter";
+import NewRecipe from './Components/NewRecipe';
 
 const RECIPES = [
   {
@@ -118,10 +119,16 @@ function App() {
     filterRecipes("");
   };
 
+  const addRecipeHandler = (recipe) => {
+    setFilteredRecipes((prevRecipes) => {
+      return [recipe, ...prevRecipes];
+    });
+  };
   return (
     <Wrapper>
       <h2>Recipes Owerview</h2>
       <RecipesFilter onChange={filterRecipes} />
+      <NewRecipe onAddRecipe={addRecipeHandler} />
       <RecipesList deleteRecipe={removeElement} recipes={filteredRecipes} />
     </Wrapper>
   );
