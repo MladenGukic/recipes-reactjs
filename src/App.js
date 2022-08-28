@@ -4,7 +4,8 @@ import "./App.css";
 import RecipesList from "./Components/RecipesList";
 import Wrapper from "./Components/Wrapper";
 import RecipesFilter from "./Components/RecipesFilter";
-import NewRecipe from './Components/NewRecipe';
+import NewRecipe from "./Components/NewRecipe";
+import Pages from "./Components/Pages";
 
 const RECIPES = [
   {
@@ -104,6 +105,7 @@ const RECIPES = [
 
 function App() {
   const [filteredRecipes, setFilteredRecipes] = useState(RECIPES);
+  const [selectedPage, setSelectedPage] = useState(1);
   const filterRecipes = (inputValue) => {
     console.log(inputValue);
     setFilteredRecipes(
@@ -111,6 +113,7 @@ function App() {
         return recipe.title.toLowerCase().includes(inputValue.toLowerCase());
       })
     );
+    paginate();
   };
   const removeElement = (id) => {
     console.log(id);
@@ -123,13 +126,35 @@ function App() {
     setFilteredRecipes((prevRecipes) => {
       return [recipe, ...prevRecipes];
     });
+    paginate();
   };
+  const number =
+    filteredRecipes.length < 5 ? 1 : Math.ceil(filteredRecipes.length / 5);
+
+  const [paginatedRecipes, setPaginatedRecipes] = useState(
+    filteredRecipes.slice((selectedPage - 1) * 5, selectedPage * 5)
+  );
+
+  const paginate = (pageNum = selectedPage) => {
+    setSelectedPage(pageNum);
+    setPaginatedRecipes(filteredRecipes.slice((pageNum - 1) * 5, pageNum * 5));
+  };
+
   return (
     <Wrapper>
       <h2>Recipes Owerview</h2>
       <RecipesFilter onChange={filterRecipes} />
       <NewRecipe onAddRecipe={addRecipeHandler} />
-      <RecipesList deleteRecipe={removeElement} recipes={filteredRecipes} />
+      <RecipesList
+        deleteRecipe={removeElement}
+        paginate={paginate}
+        recipes={paginatedRecipes}
+      />
+      <Pages
+        setSelectedPage={setSelectedPage}
+        changePage={paginate}
+        number={number}
+      />
     </Wrapper>
   );
 }

@@ -1,0 +1,18 @@
+.page {
+  font-size: 20px;
+  font-weight: bold;
+  width: 32px;
+  height: 40px;
+  padding-top: 20px;
+  margin: 5px;
+  border: 1px solid;
+  border-radius: 8px;
+}
+
+.page:hover {
+  background-color: rgb(114, 108, 108);
+}
+
+.page:active {
+  background-color: rgb(114, 108, 108);
+}
