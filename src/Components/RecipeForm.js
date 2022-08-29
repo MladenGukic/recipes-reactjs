@@ -3,14 +3,18 @@ import classes from "./RecipeForm.module.css";
 
 const RecipeForm = (props) => {
   const [message, setMessage] = useState();
-  const [enteredTitle, setEnteredTitle] = useState("");
-  const [enteredDescription, setEnteredDescription] = useState("");
+  const [enteredTitle, setEnteredTitle] = useState(props.recipeEdit.title);
+  const [enteredDescription, setEnteredDescription] = useState(
+    props.recipeEdit.description
+  );
 
   const titleChangeHandler = (event) => {
+    setMessage("");
     setEnteredTitle(event.target.value);
   };
 
   const descriptionChangeHandler = (event) => {
+    setMessage("");
     setEnteredDescription(event.target.value);
   };
 
@@ -45,14 +49,27 @@ const RecipeForm = (props) => {
     }
   };
 
+  const onSaveEditDataHandler = (event) => {
+    event.preventDefault();
+    if (validate()) {
+      const recipeData = {
+        title: enteredTitle,
+        description: enteredDescription,
+      };
+      props.saveEditingData(recipeData, props.recipeEdit.id);
+    }
+    props.onCancel();
+  };
+
   return (
-    <form onSubmit={submitHandler}>
+    <form onSubmit={!props.isEditing ? submitHandler : onSaveEditDataHandler}>
       <div>
         <div>
           <input
             placeholder="Title"
             className={classes.input}
             type="text"
+            value={props.isEditing ? enteredTitle : ""}
             onChange={titleChangeHandler}
           />
         </div>
@@ -61,6 +78,7 @@ const RecipeForm = (props) => {
             placeholder="Description"
             className={classes.input}
             type="text"
+            value={props.isEditing ? enteredDescription : ""}
             onChange={descriptionChangeHandler}
           />
         </div>
@@ -74,8 +92,17 @@ const RecipeForm = (props) => {
         >
           Cancel
         </button>
-        <button className={classes.add} type="submit">
+        <button
+          className={!props.isEditing ? classes.add : classes.displayNone}
+          type="submit"
+        >
           Add Recipe
+        </button>
+        <button
+          className={props.isEditing ? classes.add : classes.displayNone}
+          type="submit"
+        >
+          Save
         </button>
       </div>
     </form>

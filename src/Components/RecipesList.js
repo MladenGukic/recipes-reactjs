@@ -8,6 +8,7 @@ const RecipesList = (props) => {
     <ul className={classes.recipesList}>
       {props.recipes.map((recipe) => (
         <Recipe
+          getElement={props.getElement}
           key={recipe.id}
           title={recipe.title}
           description={recipe.description}

@@ -107,6 +107,7 @@ function App() {
   const [filteredRecipes, setFilteredRecipes] = useState(RECIPES);
   const [selectedPage, setSelectedPage] = useState(1);
   const [isEditing, setIsEditing] = useState(false);
+  const [recipeEdit, setRecipeEdit] = useState({});
   const filterRecipes = (inputValue) => {
     console.log(inputValue);
     setFilteredRecipes(
@@ -139,17 +140,36 @@ function App() {
     setPaginatedRecipes(filteredRecipes.slice((pageNum - 1) * 5, pageNum * 5));
   };
 
+  const getElement = (elementId) => {
+    setIsEditing(true);
+    RECIPES.forEach((element) => {
+      if (element.id === elementId) {
+        setRecipeEdit(element);
+      }
+    });
+  };
+
+  const saveEditingData = (recipe, id) => {
+    let index = RECIPES.findIndex((element) => element.id === id);
+    RECIPES[index].title = recipe.title;
+    RECIPES[index].description = recipe.description;
+    paginate();
+  };
+
   return (
     <Wrapper>
       <h2>Recipes Owerview</h2>
       <RecipesFilter onChange={filterRecipes} />
       <NewRecipe
-        isEditing={isEditing}
+        setIsEditing={setIsEditing}
         recipes={RECIPES}
+        saveEditingData={saveEditingData}
+        recipeEdit={recipeEdit}
+        isEditing={isEditing}
         onAddRecipe={addRecipeHandler}
       />
       <RecipesList
-        setIsEditing={setIsEditing}
+        getElement={getElement}
         deleteRecipe={removeElement}
         recipes={paginatedRecipes}
       />

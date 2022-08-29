@@ -18,23 +18,29 @@ const NewRecipe = (props) => {
   };
 
   const stopAddingHandler = () => {
+    props.setIsEditing(false);
     setIsAdding(false);
   };
 
   return (
     <div className={classes.newRecipe}>
-      {!isAdding && (
+      {!isAdding && !props.isEditing && (
         <button className={classes.add} onClick={startAddingHandler}>
           Add New Recipe
         </button>
       )}
-      {isAdding && (
+      {isAdding || props.isEditing ? (
         <RecipeForm
-          isEditing={props.isEditing}
           recipes={props.recipes}
+          id={props.id}
+          saveEditingData={props.saveEditingData}
+          isEditing={props.isEditing}
+          recipeEdit={props.recipeEdit}
           onCancel={stopAddingHandler}
           onSaveRecipeData={saveRecipeDataHandler}
         />
+      ) : (
+        ""
       )}
     </div>
   );

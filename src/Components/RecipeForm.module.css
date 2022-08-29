@@ -25,3 +25,12 @@ input {
   margin-right: 5px;
   background-color: #c04131;
 }
+
+strong {
+  background-color: rgb(233, 121, 121);
+  color: rgb(73, 47, 47);
+}
+
+.displayNone {
+  display: none;
+}
