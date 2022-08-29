@@ -106,6 +106,7 @@ const RECIPES = [
 function App() {
   const [filteredRecipes, setFilteredRecipes] = useState(RECIPES);
   const [selectedPage, setSelectedPage] = useState(1);
+  const [isEditing, setIsEditing] = useState(false);
   const filterRecipes = (inputValue) => {
     console.log(inputValue);
     setFilteredRecipes(
@@ -119,13 +120,11 @@ function App() {
     console.log(id);
     let indexCake = RECIPES.findIndex((element) => element.id === id);
     RECIPES.splice(indexCake, 1);
-    filterRecipes("");
+    paginate();
   };
 
   const addRecipeHandler = (recipe) => {
-    setFilteredRecipes((prevRecipes) => {
-      return [recipe, ...prevRecipes];
-    });
+    RECIPES.unshift(recipe);
     paginate();
   };
   const number =
@@ -144,10 +143,14 @@ function App() {
     <Wrapper>
       <h2>Recipes Owerview</h2>
       <RecipesFilter onChange={filterRecipes} />
-      <NewRecipe onAddRecipe={addRecipeHandler} />
+      <NewRecipe
+        isEditing={isEditing}
+        recipes={RECIPES}
+        onAddRecipe={addRecipeHandler}
+      />
       <RecipesList
+        setIsEditing={setIsEditing}
         deleteRecipe={removeElement}
-        paginate={paginate}
         recipes={paginatedRecipes}
       />
       <Pages

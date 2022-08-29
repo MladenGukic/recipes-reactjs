@@ -4,7 +4,7 @@ import classes from "./NewRecipe.module.css";
 
 const NewRecipe = (props) => {
   const [isAdding, setIsAdding] = useState(false);
-  const saveRecipeDataHandeler = (enteredRecipeData) => {
+  const saveRecipeDataHandler = (enteredRecipeData) => {
     const recipeData = {
       ...enteredRecipeData,
       id: Math.random().toString(),
@@ -13,25 +13,27 @@ const NewRecipe = (props) => {
     setIsAdding(false);
   };
 
-  const startEditingHandler = () => {
+  const startAddingHandler = () => {
     setIsAdding(true);
   };
 
-  const stopEditingHandler = () => {
+  const stopAddingHandler = () => {
     setIsAdding(false);
   };
 
   return (
     <div className={classes.newRecipe}>
       {!isAdding && (
-        <button className={classes.add} onClick={startEditingHandler}>
+        <button className={classes.add} onClick={startAddingHandler}>
           Add New Recipe
         </button>
       )}
       {isAdding && (
         <RecipeForm
-          onCancel={stopEditingHandler}
-          onSaveRecipeData={saveRecipeDataHandeler}
+          isEditing={props.isEditing}
+          recipes={props.recipes}
+          onCancel={stopAddingHandler}
+          onSaveRecipeData={saveRecipeDataHandler}
         />
       )}
     </div>

@@ -8,3 +8,8 @@ p {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+strong {
+  background-color: rgb(233, 121, 121);
+  color: rgb(73, 47, 47);
+}

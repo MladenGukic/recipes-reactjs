@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import classes from "./RecipeForm.module.css";
 
 const RecipeForm = (props) => {
+  const [message, setMessage] = useState();
   const [enteredTitle, setEnteredTitle] = useState("");
   const [enteredDescription, setEnteredDescription] = useState("");
 
@@ -13,19 +14,37 @@ const RecipeForm = (props) => {
     setEnteredDescription(event.target.value);
   };
 
+  const validate = () => {
+    if (enteredTitle === "" || enteredDescription === "") {
+      setMessage("Everything must be filled out");
+      return false;
+    } else if (
+      props.recipes.some((element) => {
+        return element.title === enteredTitle;
+      }) &&
+      !props.isEditing
+    ) {
+      setMessage("The recipe already exists");
+      return false;
+    }
+    return true;
+  };
+
   const submitHandler = (event) => {
     event.preventDefault();
+    if (validate()) {
+      const recipeData = {
+        title: enteredTitle,
+        description: enteredDescription,
+      };
 
-    const recipeData = {
-      title: enteredTitle,
-      description: enteredDescription,
-    };
+      props.onSaveRecipeData(recipeData);
 
-    props.onSaveRecipeData(recipeData);
-
-    setEnteredTitle("");
-    setEnteredDescription("");
+      setEnteredTitle("");
+      setEnteredDescription("");
+    }
   };
+
   return (
     <form onSubmit={submitHandler}>
       <div>
@@ -46,6 +65,7 @@ const RecipeForm = (props) => {
           />
         </div>
       </div>
+      <strong className={classes.message}>{message}</strong>
       <div>
         <button
           onClick={props.onCancel}
