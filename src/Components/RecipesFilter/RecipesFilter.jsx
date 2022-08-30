@@ -1,7 +1,7 @@
 import React from "react";
 import classes from "./RecipesFilter.module.css";
 
-const RecipesFilter = (props) => {
+export const RecipesFilter = (props) => {
   const filterHandler = (event) => {
     props.onChange(event.target.value);
   };
@@ -15,4 +15,3 @@ const RecipesFilter = (props) => {
   );
 };
 
-export default RecipesFilter;

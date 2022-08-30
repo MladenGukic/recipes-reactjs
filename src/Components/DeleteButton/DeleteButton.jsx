@@ -1,7 +1,7 @@
 import React from "react";
 import classes from "./DeleteButton.module.css";
 
-const DeleteButton = (props) => {
+export const DeleteButton = (props) => {
   const deleteHandler = () => {
     props.deleteRecipe(props.id);
   };
@@ -12,4 +12,3 @@ const DeleteButton = (props) => {
   );
 };
 
-export default DeleteButton;

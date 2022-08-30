@@ -1,30 +1,36 @@
 import React, { useState } from "react";
 import classes from "./RecipeForm.module.css";
 
-const RecipeForm = (props) => {
-  const [message, setMessage] = useState();
-  const [enteredTitle, setEnteredTitle] = useState(props.recipeEdit.title);
-  const [enteredDescription, setEnteredDescription] = useState(
+export const RecipeForm = (props) => {
+  const [message, setMessage] = useState("");
+  const [editingTitle, setEditingTitle] = useState(props.recipeEdit.title);
+  const [editingDescription, setEditingDescription] = useState(
     props.recipeEdit.description
   );
+  const [enteredTitle, setEnteredTitle] = useState("");
+  const [enteredDescription, setEnteredDescription] = useState("");
 
   const titleChangeHandler = (event) => {
     setMessage("");
-    setEnteredTitle(event.target.value);
+    props.isEditing
+      ? setEditingTitle(event.target.value)
+      : setEnteredTitle(event.target.value);
   };
 
   const descriptionChangeHandler = (event) => {
     setMessage("");
-    setEnteredDescription(event.target.value);
+    props.isEditing
+      ? setEditingDescription(event.target.value)
+      : setEnteredDescription(event.target.value);
   };
 
-  const validate = () => {
-    if (enteredTitle === "" || enteredDescription === "") {
+  const validate = (title, desc) => {
+    if (title === "" || desc === "") {
       setMessage("Everything must be filled out");
       return false;
     } else if (
       props.recipes.some((element) => {
-        return element.title === enteredTitle;
+        return element.title === title;
       }) &&
       !props.isEditing
     ) {
@@ -36,7 +42,7 @@ const RecipeForm = (props) => {
 
   const submitHandler = (event) => {
     event.preventDefault();
-    if (validate()) {
+    if (validate(enteredTitle, enteredDescription)) {
       const recipeData = {
         title: enteredTitle,
         description: enteredDescription,
@@ -51,14 +57,16 @@ const RecipeForm = (props) => {
 
   const onSaveEditDataHandler = (event) => {
     event.preventDefault();
-    if (validate()) {
+    if (validate(editingTitle, editingDescription)) {
       const recipeData = {
-        title: enteredTitle,
-        description: enteredDescription,
+        title: editingTitle,
+        description: editingDescription,
       };
       props.saveEditingData(recipeData, props.recipeEdit.id);
+      props.onCancel();
+    } else {
+      props.setIsEditing(true);
     }
-    props.onCancel();
   };
 
   return (
@@ -69,7 +77,7 @@ const RecipeForm = (props) => {
             placeholder="Title"
             className={classes.input}
             type="text"
-            value={props.isEditing ? enteredTitle : ""}
+            value={props.isEditing ? editingTitle : enteredTitle}
             onChange={titleChangeHandler}
           />
         </div>
@@ -78,7 +86,7 @@ const RecipeForm = (props) => {
             placeholder="Description"
             className={classes.input}
             type="text"
-            value={props.isEditing ? enteredDescription : ""}
+            value={props.isEditing ? editingDescription : enteredDescription}
             onChange={descriptionChangeHandler}
           />
         </div>
@@ -109,4 +117,4 @@ const RecipeForm = (props) => {
   );
 };
 
-export default RecipeForm;
+

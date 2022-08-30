@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import RecipeForm from "./RecipeForm";
+import { RecipeForm } from '../RecipeForm/RecipeForm';
 import classes from "./NewRecipe.module.css";
 
-const NewRecipe = (props) => {
+export const NewRecipe = (props) => {
   const [isAdding, setIsAdding] = useState(false);
   const saveRecipeDataHandler = (enteredRecipeData) => {
     const recipeData = {
@@ -35,6 +35,7 @@ const NewRecipe = (props) => {
           id={props.id}
           saveEditingData={props.saveEditingData}
           isEditing={props.isEditing}
+          setIsEditing={props.setIsEditing}
           recipeEdit={props.recipeEdit}
           onCancel={stopAddingHandler}
           onSaveRecipeData={saveRecipeDataHandler}
@@ -46,4 +47,4 @@ const NewRecipe = (props) => {
   );
 };
 
-export default NewRecipe;
+

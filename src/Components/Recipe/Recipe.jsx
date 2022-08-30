@@ -1,8 +1,8 @@
 import React from "react";
+import { DeleteButton } from '../DeleteButton/DeleteButton';
 import classes from "./Recipe.module.css";
-import DeleteButton from "./DeleteButton";
 
-const Recipe = (props) => {
+export const Recipe = (props) => {
   const editButtonHandler = () => {
     props.getElement(props.id);
   };
@@ -23,5 +23,3 @@ const Recipe = (props) => {
     </div>
   );
 };
-
-export default Recipe;

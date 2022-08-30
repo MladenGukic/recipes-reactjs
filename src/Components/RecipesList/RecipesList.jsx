@@ -1,9 +1,8 @@
 import React from "react";
-
-import Recipe from "./Recipe";
+import { Recipe } from '../Recipe/Recipe';
 import classes from "./RecipesList.module.css";
 
-const RecipesList = (props) => {
+export const RecipesList = (props) => {
   return (
     <ul className={classes.recipesList}>
       {props.recipes.map((recipe) => (
@@ -20,4 +19,3 @@ const RecipesList = (props) => {
   );
 };
 
-export default RecipesList;

@@ -1,7 +1,7 @@
 import React from "react";
 import classes from "./PageNumber.module.css";
 
-const PageNumber = (props) => {
+export const PageNumber = (props) => {
   const changePageHandler = () => {
     props.setSelectedPage(props.number);
     props.changePage(props.number);
@@ -13,4 +13,4 @@ const PageNumber = (props) => {
   );
 };
 
-export default PageNumber;
+

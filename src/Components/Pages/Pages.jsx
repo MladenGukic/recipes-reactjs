@@ -1,8 +1,8 @@
 import React from "react";
+import { PageNumber } from '../PageNumber/PageNumber';
 import classes from "./Pages.module.css";
-import PageNumber from "./PageNumber";
 
-const Pages = (props) => {
+export const Pages = (props) => {
   const arrayOfNumber = Array.from({ length: props.number }, (_, i) => i + 1);
   return (
     <ul className={classes.pages}>
@@ -19,5 +19,3 @@ const Pages = (props) => {
     </ul>
   );
 };
-
-export default Pages;
