@@ -1,9 +1,9 @@
 import React from "react";
-import { PageNumber } from '../PageNumber/PageNumber';
-import classes from "./Pages.module.css";
+import { PageNumber } from "../PageNumber/PageNumber";
+import classes from "./Paginator.module.css";
 
-export const Pages = (props) => {
-  const arrayOfNumber = Array.from({ length: props.number }, (_, i) => i + 1);
+export const Paginator = (props) => {
+  const arrayOfNumber = Array.from({ length: props.number }, (_, i) => i + 1); //this is a function returns array with elements of each number until it is equal to the given number starting with 1
   return (
     <ul className={classes.pages}>
       {arrayOfNumber.map((num, index) => {

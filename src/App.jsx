@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 import "./App.css";
 import { NewRecipe } from "./Components/NewRecipe/NewRecipe";
 import { RECIPES } from "./data";
-import { Pages } from "./Components/Pages/Pages";
 import { RecipesFilter } from "./Components/RecipesFilter/RecipesFilter";
 import { RecipesList } from "./Components/RecipesList/RecipesList";
 import { Wrapper } from "./Components/Wrapper/Wrapper";
+import { Paginator } from './Components/Paginator/Paginator';
 
 function App() {
   const [allRecipes, setAllRecipes] = useState(RECIPES);
@@ -15,7 +15,6 @@ function App() {
   const [isEditing, setIsEditing] = useState(false);
   const [recipeEdit, setRecipeEdit] = useState({});
   const filterRecipes = (inputValue) => {
-    console.log(inputValue);
     setFilteredRecipes(
       allRecipes.filter((recipe) => {
         return recipe.title.toLowerCase().includes(inputValue.toLowerCase());
@@ -24,9 +23,10 @@ function App() {
     paginate(1);
   };
   const removeElement = (id) => {
-    console.log(id);
-    let indexCake = allRecipes.findIndex((element) => element.id === id);
-    allRecipes.splice(indexCake, 1);
+    // let indexCake = allRecipes.findIndex((element) => element.id === id);
+    // allRecipes.splice(indexCake, 1);
+    const newArray = allRecipes.filter((recipe) => recipe.id !== id);
+    setAllRecipes(newArray);
   };
 
   const addRecipeHandler = (recipe) => {
@@ -68,7 +68,7 @@ function App() {
 
   useEffect(() => {
     paginate();
-  }, [filteredRecipes]);
+  }, [filteredRecipes, allRecipes, selectedPage]);
 
   useEffect(() => {
     setFilteredRecipes(allRecipes);
@@ -92,7 +92,7 @@ function App() {
         deleteRecipe={removeElement}
         recipes={paginatedRecipes}
       />
-      <Pages
+      <Paginator
         setSelectedPage={setSelectedPage}
         changePage={paginate}
         number={number}
