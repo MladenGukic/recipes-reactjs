@@ -59,10 +59,11 @@ export const RecipeForm = (props) => {
     event.preventDefault();
     if (validate(editingTitle, editingDescription)) {
       const recipeData = {
+        id: props.recipeEdit.id,
         title: editingTitle,
         description: editingDescription,
       };
-      props.saveEditingData(recipeData, props.recipeEdit.id);
+      props.saveEditingData(recipeData);
       props.onCancel();
     } else {
       props.setIsEditing(true);
@@ -116,5 +117,3 @@ export const RecipeForm = (props) => {
     </form>
   );
 };
-
-

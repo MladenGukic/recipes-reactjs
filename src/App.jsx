@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./App.css";
 import { NewRecipe } from "./Components/NewRecipe/NewRecipe";
 import { RECIPES } from "./data";
@@ -8,29 +8,31 @@ import { RecipesList } from "./Components/RecipesList/RecipesList";
 import { Wrapper } from "./Components/Wrapper/Wrapper";
 
 function App() {
+  const [allRecipes, setAllRecipes] = useState(RECIPES);
   const [filteredRecipes, setFilteredRecipes] = useState(RECIPES);
   const [selectedPage, setSelectedPage] = useState(1);
+  const [isAdding, setIsAdding] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [recipeEdit, setRecipeEdit] = useState({});
   const filterRecipes = (inputValue) => {
     console.log(inputValue);
     setFilteredRecipes(
-      RECIPES.filter((recipe) => {
+      allRecipes.filter((recipe) => {
         return recipe.title.toLowerCase().includes(inputValue.toLowerCase());
       })
     );
-    paginate();
+    paginate(1);
   };
   const removeElement = (id) => {
     console.log(id);
-    let indexCake = RECIPES.findIndex((element) => element.id === id);
-    RECIPES.splice(indexCake, 1);
-    paginate();
+    let indexCake = allRecipes.findIndex((element) => element.id === id);
+    allRecipes.splice(indexCake, 1);
   };
 
   const addRecipeHandler = (recipe) => {
-    RECIPES.unshift(recipe);
-    paginate();
+    setAllRecipes((prevRec) => {
+      return [...prevRec, recipe];
+    });
   };
   const number =
     filteredRecipes.length < 5 ? 1 : Math.ceil(filteredRecipes.length / 5);
@@ -45,28 +47,41 @@ function App() {
   };
 
   const getElement = (elementId) => {
+    setIsAdding(false);
     setIsEditing(true);
-    RECIPES.forEach((element) => {
+    allRecipes.forEach((element) => {
       if (element.id === elementId) {
         setRecipeEdit(element);
       }
     });
   };
 
-  const saveEditingData = (recipe, id) => {
-    let index = RECIPES.findIndex((element) => element.id === id);
-    RECIPES[index].title = recipe.title;
-    RECIPES[index].description = recipe.description;
-    paginate();
+  const saveEditingData = (recipe) => {
+    let newRecipes = allRecipes.map((rec) => {
+      if (rec.id === recipe.id) {
+        return recipe;
+      }
+      return rec;
+    });
+    setAllRecipes(newRecipes);
   };
 
+  useEffect(() => {
+    paginate();
+  }, [filteredRecipes]);
+
+  useEffect(() => {
+    setFilteredRecipes(allRecipes);
+  }, [allRecipes]);
   return (
     <Wrapper>
       <h2>Recipes Overview</h2>
       <RecipesFilter onChange={filterRecipes} />
       <NewRecipe
+        setIsAdding={setIsAdding}
+        isAdding={isAdding}
         setIsEditing={setIsEditing}
-        recipes={RECIPES}
+        recipes={allRecipes}
         saveEditingData={saveEditingData}
         recipeEdit={recipeEdit}
         isEditing={isEditing}

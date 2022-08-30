@@ -1,35 +1,34 @@
-import React, { useState } from "react";
-import { RecipeForm } from '../RecipeForm/RecipeForm';
+import React from "react";
+import { RecipeForm } from "../RecipeForm/RecipeForm";
 import classes from "./NewRecipe.module.css";
 
 export const NewRecipe = (props) => {
-  const [isAdding, setIsAdding] = useState(false);
   const saveRecipeDataHandler = (enteredRecipeData) => {
     const recipeData = {
       ...enteredRecipeData,
       id: Math.random().toString(),
     };
     props.onAddRecipe(recipeData);
-    setIsAdding(false);
+    props.setIsAdding(false);
   };
 
   const startAddingHandler = () => {
-    setIsAdding(true);
+    props.setIsAdding(true);
   };
 
   const stopAddingHandler = () => {
     props.setIsEditing(false);
-    setIsAdding(false);
+    props.setIsAdding(false);
   };
 
   return (
     <div className={classes.newRecipe}>
-      {!isAdding && !props.isEditing && (
+      {!props.isAdding && !props.isEditing && (
         <button className={classes.add} onClick={startAddingHandler}>
           Add New Recipe
         </button>
       )}
-      {isAdding || props.isEditing ? (
+      {props.isAdding || props.isEditing ? (
         <RecipeForm
           recipes={props.recipes}
           id={props.id}
@@ -46,5 +45,3 @@ export const NewRecipe = (props) => {
     </div>
   );
 };
-
-
